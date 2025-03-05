@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+.vs/
+RayTracing/x64/
+x64/
