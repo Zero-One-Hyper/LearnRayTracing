@@ -1,4 +1,5 @@
 #pragma once
+#include "rtweekend.h"
 #include <iostream>
 
 class vec3
@@ -54,12 +55,18 @@ public:
 		return e[0] * e[0] + e[1] * e[1] + e[2] * e[2];
 	}
 
-	void write_color(std::ostream& out)
-	{
+	//写颜色，并抗锯齿处理（像素周边多次采样方法）
+	void write_color(std::ostream& out, int sample_per_pixel)
+	{ 
+		double scale = 1.0 / sample_per_pixel;//采样了多少个像素，这个像素的颜色占总像素的 1.0 / sample_per_pixel
+		double r = scale * e[0];
+		double g = scale * e[1];
+		double b = scale * e[2];
+
 		//将vector3(0-1)转化输出成颜色(0-256)
-		out << static_cast<int>(255.999 * e[0]) << ' '
-			<< static_cast<int>(255.999 * e[1]) << ' '
-			<< static_cast<int>(255.999 * e[2]) << '\n';
+		out << static_cast<int>(256 * clamp(r, 0.0, 0.999)) << ' '
+			<< static_cast<int>(256 * clamp(g, 0.0, 0.999)) << ' '
+			<< static_cast<int>(256 * clamp(b, 0.0, 0.999)) << '\n';
 	}
 public:
 	double e[3];
