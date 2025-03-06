@@ -2,6 +2,7 @@
 #include "hittable_list.h"
 #include "sphere.h"
 #include "camera.h"
+#include "ppmbuilder.h"
 #include <iostream>
 
 //保证所有头文件只include一次
@@ -25,7 +26,7 @@ int main()
     const double dist_to_focus = (lookfrom - lookat).length();
     const double aperture = 2.0;
 
-    std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+    
 
     //vec3 lower_left_corner{ 1.0, -1.0, -1.0 };
     //vec3 horiizonal{ 4.0, 0.0, 0.0 };
@@ -41,7 +42,8 @@ int main()
     world.add(make_shared<sphere>(vec3(-1, 0, -1), -0.35, make_shared<dielectric>(1.5)));//半径取反 得到法线向内的球体
 
     camera cam(lookfrom, lookat, vup, fov, aspect_ratio,dist_to_focus, aperture);
-
+    double colorarray[image_height * image_width * 3];
+	//std::cout << image_height * image_width * 3 << std::endl;
     for (int j = image_height - 1; j >= 0; --j)
     {
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
@@ -57,10 +59,16 @@ int main()
                 ray r = cam.get_ray(u, v);
                 color += ray_color(r, world, max_depth);
             }
-            color.write_color(std::cout, sample_per_pixel);
+            int pixelindex = (image_height - j - 1) * image_width + i;//当前像素
+            pixelindex *= 3;
+			//std::cout << pixelindex << std::endl;
+            color.write_color(std::cout, sample_per_pixel, pixelindex, colorarray);
         }
     }
+	ppmbuilder ppmbuilder("image.ppm");
+	ppmbuilder.ppmbuild(colorarray, image_width, image_height);
     std::cerr << "\nDone.\n";
+    //std::cout << sizeof(colorarray) << std::endl;
     //return 0;
 }
 
@@ -131,8 +139,9 @@ hittable_list random_scene()
 {
     hittable_list world;
 
-    world.add(make_shared<sphere>(vec3(0, -1000, 0), 1000, make_shared<lambertian>(vec3(0.5, 0.5, 0.5))));
+    //world.add(make_shared<sphere>(vec3(0, -1000, 0), 1000, make_shared<lambertian>(vec3(0.5, 0.5, 0.5))));
     return world;
+    /*
     int i = 1;
     for (int a = -11; a < 11; a++)
     {
@@ -169,4 +178,5 @@ hittable_list random_scene()
 
     world.add(make_shared<sphere>(vec3(4, 1, 0), 1.0, make_shared<metal>(vec3(0.7, 0.6, 0.5), 0.0)));
     return world;
+    */
 }

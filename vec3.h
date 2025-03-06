@@ -56,13 +56,19 @@ public:
 	}
 
 	//写颜色，并抗锯齿处理（像素周边多次采样方法）
-	void write_color(std::ostream& out, int sample_per_pixel)
+	void write_color(std::ostream& out, int sample_per_pixel, int pixelindex, double* colorarray)
 	{ 
 		double scale = 1.0 / sample_per_pixel;//采样了多少个像素，这个像素的颜色占总像素的 1.0 / sample_per_pixel
 		//gamma处理 开方
 		double r = sqrt(scale * e[0]);
 		double g = sqrt(scale * e[1]);
 		double b = sqrt(scale * e[2]);
+
+		colorarray[pixelindex] = (256 * clamp(r, 0.0, 0.999));
+		colorarray[pixelindex + 1] = (256 * clamp(g, 0.0, 0.999));
+		colorarray[pixelindex + 2] = (256 * clamp(b, 0.0, 0.999));
+
+		//out << static_cast<int>(pixelindex) << std::endl;
 
 		//将vector3(0-1)转化输出成颜色(0-256)
 		//out << static_cast<int>(256 * clamp(r, 0.0, 0.999)) << ' '
