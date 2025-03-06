@@ -1,12 +1,12 @@
 #pragma once
 
 #include "hittable.h"
-#include <memory>
+//#include <memory>
 #include <vector>
 
-using std::shared_ptr;	//ÊÇÖ¸ÏòÒ»Ğ©ÒÑ·ÖÅäÄÚ´æµÄÀàĞÍµÄÖ¸Õë£¬Ã¿µ±Äã½«ËüµÄÖµ¸³Öµ¸øÁíÒ»¸öÖÇÄÜÖ¸ÕëÊ±, ÎïÌåµÄÒıÓÃ¼ÆÊıÆ÷¾Í»á+1¡£
+//using std::shared_ptr;	//ÊÇÖ¸ÏòÒ»Ğ©ÒÑ·ÖÅäÄÚ´æµÄÀàĞÍµÄÖ¸Õë£¬Ã¿µ±Äã½«ËüµÄÖµ¸³Öµ¸øÁíÒ»¸öÖÇÄÜÖ¸ÕëÊ±, ÎïÌåµÄÒıÓÃ¼ÆÊıÆ÷¾Í»á+1¡£
 						//µ±ÖÇÄÜÖ¸ÕëÀë¿ªËüËùÔÚµÄÉú´æ·¶Î§(ÀıÈç´úÂë¿é»òÕßº¯ÊıÍâ), ÎïÌåµÄÒıÓÃ¼ÆÊıÆ÷¾Í»á-1¡£Ò»µ©ÒıÓÃ¼ÆÊıÆ÷Îª0, ¼´Ã»ÓĞÈÎºÎÖÇÄÜÖ¸ÕëÖ¸Ïò¸ÃÎïÌåÊ±, ¸ÃÎïÌå¾Í»á±»Ïú»Ù
-using std::make_shared;//ÎªÖ¸¶¨µÄÀàĞÍ·ÖÅäÒ»¶ÎÄÚ´æ, Ê¹ÓÃÄãÖ¸¶¨µÄ¹¹Ôìº¯ÊıÓë²ÎÊıÀ´´´½¨Õâ¸öÀà, ²¢·µ»ØÒ»¸öÖÇÄÜÖ¸Õëshared_ptr<thing>
+//using std::make_shared;//ÎªÖ¸¶¨µÄÀàĞÍ·ÖÅäÒ»¶ÎÄÚ´æ, Ê¹ÓÃÄãÖ¸¶¨µÄ¹¹Ôìº¯ÊıÓë²ÎÊıÀ´´´½¨Õâ¸öÀà, ²¢·µ»ØÒ»¸öÖÇÄÜÖ¸Õëshared_ptr<thing>
 
 /// <summary>
 /// ´æ·ÅÎïÌåµÄÁĞ±í
@@ -14,7 +14,7 @@ using std::make_shared;//ÎªÖ¸¶¨µÄÀàĞÍ·ÖÅäÒ»¶ÎÄÚ´æ, Ê¹ÓÃÄãÖ¸¶¨µÄ¹¹Ôìº¯ÊıÓë²ÎÊıÀ´´
 class hittable_list : public hittable
 {
 public:
-	hittable_list();
+	hittable_list() {}
 	hittable_list(shared_ptr<hittable> object) { add(object); }
 
 	void clear() { objects.clear(); }

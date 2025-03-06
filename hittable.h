@@ -1,5 +1,10 @@
 #pragma once
-#include "ray.h"
+//#include "rtweekend.h"
+//#include "ray.h"
+
+
+//hittable比material先定义，这里需要先声明material 后面Camera会include material
+class material;
 
 /// <summary>
 /// 射线碰撞记录
@@ -8,6 +13,7 @@ struct hit_record
 {
 	vec3 p;//碰撞点
 	vec3 normal; //碰撞点的法线
+	shared_ptr<material> mat_ptr;
 	double t;
 	bool front_face;
 
