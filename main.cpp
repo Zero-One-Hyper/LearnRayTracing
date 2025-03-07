@@ -17,30 +17,31 @@ int main()
     const int image_height = 100;
     const int sample_per_pixel = 100;//抗锯齿处理，每个像素向周边采样多少次
     const int max_depth = 50;//最大反射次数
-    const vec3 lookfrom = vec3(0, 0, -1);
-    const vec3 lookat = vec3(0, 0, 10);
+    const vec3 lookfrom = vec3(0, 3, 4.5);
+    const vec3 lookat = vec3(0, 0, 0);
 	const vec3 vup = vec3(0, 1, 0);
     const double fov = 60;
     const double aspect_ratio = double(image_width) / image_height;
+    const double aperture = 0.01;
     const double dist_to_focus = (lookfrom - lookat).length();
-    const double aperture = 2.0;
 
     
 
     vec3 lower_left_corner{ -2, -1.0, -1.0 };
     vec3 horiizonal{ 4.0, 0.0, 0.0 };
     vec3 vertical{ 0.0, 2.0, 0.0 };
-    vec3 origin{0.0, 0.0, 1};
+    vec3 origin{0.0, 0.0, 0};
 
-    hittable_list world;// = random_scene();
-    world.add(make_shared<sphere>(vec3(0, 0, -1), 0.5, make_shared<lambertian>(vec3(0.7, 0.3, 0.3))));//sphere要 public继承hittable
-    world.add(make_shared<sphere>(vec3(0, -100.5, -1), 100, make_shared<lambertian>(vec3(0.8, 0.8, 0.0))));
+    hittable_list world = random_scene();
+    
+    //world.add(make_shared<sphere>(vec3(0, -100.5, -1), 100, make_shared<lambertian>(vec3(0.8, 0.8, 0.0))));
+    //world.add(make_shared<sphere>(vec3(0, 0, -1), 0.5, make_shared<lambertian>(vec3(0.7, 0.3, 0.3))));//sphere要 public继承hittable
+	//world.add(make_shared<sphere>(vec3(1, 0, -1), 0.5, make_shared<metal>(vec3(0.8, 0.6, 0.2), 0.9)));
+    //world.add(make_shared<sphere>(vec3(-1, 0, -1), 0.5, make_shared<dielectric>(1.5)));
+    //world.add(make_shared<sphere>(vec3(-1, 0, -1), -0.35, make_shared<dielectric>(20)));//半径取反 得到法线向内的球体
+    
 
-	world.add(make_shared<sphere>(vec3(1, 0, -1), 0.5, make_shared<metal>(vec3(0.8, 0.6, 0.2), 0.9)));
-    world.add(make_shared<sphere>(vec3(-1, 0, -1), 0.5, make_shared<dielectric>(1.5)));
-    world.add(make_shared<sphere>(vec3(-1, 0, -1), -0.35, make_shared<dielectric>(0.7)));//半径取反 得到法线向内的球体
-
-    camera cam(lookfrom, lookat, vup, fov, aspect_ratio, dist_to_focus, aperture);
+    camera cam(lookfrom, lookat, vup, fov, aspect_ratio, aperture, dist_to_focus);
     double colorarray[image_height * image_width * 3];
     for (int j = image_height - 1; j >= 0; --j)
     {
@@ -49,19 +50,27 @@ int main()
         {
             //对当前像素进行着色
             vec3 color;
+            
             //抗锯齿多次采样
-            for (int s = 0; s < sample_per_pixel; s++)
+            for (int s = 0; s < sample_per_pixel; ++s)
             {
                 double u = (i + random_double()) / image_width;
                 double v = (j + random_double()) / image_height;
-                //ray r = cam.get_ray(u, v);
-                ray r(origin, lower_left_corner + u * horiizonal + v * vertical);
+                ray r = cam.get_ray(u, v);
+                //ray r(origin, lower_left_corner + u * horiizonal + v * vertical);
                 color += ray_color(r, world, max_depth);
             }
+            
+            //不抗锯齿
+            //ray r = cam.get_ray((double)i / image_width , (double)j / image_height);
+            //ray r(origin, lower_left_corner + (double)i / image_width * horiizonal + (double)j / image_height * vertical);
+            //color += ray_color(r, world, max_depth);
+
             int pixelindex = (image_height - j - 1) * image_width + i;//当前像素
             pixelindex *= 3;
 			//std::cout << pixelindex << std::endl;
             color.write_color(std::cout, sample_per_pixel, pixelindex, colorarray);
+            //color.write_color(std::cout, 1, pixelindex, colorarray);
         }
     }
 	ppmbuilder ppmbuilder("image.ppm");
@@ -124,7 +133,7 @@ vec3 ray_color(const ray& r, const hittable& world, int depth)
         //std::cout << "击中" << std::endl;
 		if (rec.mat_ptr->scatter(r, rec, attenuaion, scattered))
 		{
-			return attenuaion * ray_color(scattered, world, depth - 1);
+			return attenuaion * ray_color(scattered, world, depth - 1);           
 		}
         return vec3(0, 0, 0);
     }
@@ -139,7 +148,7 @@ hittable_list random_scene()
 {
     hittable_list world;
 
-    //world.add(make_shared<sphere>(vec3(0, -1000, 0), 1000, make_shared<lambertian>(vec3(0.5, 0.5, 0.5))));
+    world.add(make_shared<sphere>(vec3(0, -1000, 0), 1000, make_shared<lambertian>(vec3(0.5, 0.5, 0.5))));
     //return world;
     
     int i = 1;

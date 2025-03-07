@@ -24,7 +24,7 @@ public:
 		double vfov, double aspect, double aperture, double focus_dist)
 	{
 		origin = lookfrom;
-		lens_radius = aperture / 2;
+		lens_radius = aperture / 2.0;
 
 		double theta = degress_to_radians(vfov);
 		double half_height = tan(theta / 2);
@@ -51,7 +51,7 @@ public:
 	}
 
 public:
-	vec3 origin;
+	vec3 origin;//相机原点
 	vec3 lower_left_corner;
 	vec3 horiizonal;
 	vec3 vertical;
