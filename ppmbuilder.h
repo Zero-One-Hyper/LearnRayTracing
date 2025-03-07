@@ -10,23 +10,26 @@ class ppmbuilder
 public:
 	ppmbuilder(std::string name) : filename(name) {	}
 
-	void ppmbuild(double* color, int width, int height)
+	void ppmbuild(double color[], int width, int height)
 	{
 		std::ofstream file(filename);
 		if (file.is_open())
 		{
 			file << "P3\n" << width << ' ' << height << "\n255\n";
-			for (int i = 0; i < width * height * 3; i++)
+			for (int i = 0; i < width * height; i++)
 			{
-
-				double channelr = color[i];
-				double channelg = color[i + 1];
-				double channelb = color[i + 2];
-				file << channelr << " " << channelg << " " << channelb << "\n";
+				int pixelindex = i * 3;
+				double channelr = color[pixelindex];
+				double channelg = color[pixelindex + 1];
+				double channelb = color[pixelindex + 2];
+				//std::cout << channelr << ' ' << channelg << ' ' << channelb << ' ' <<  pixelindex << ' ' << i << std::endl;
+				file << static_cast<int>(256 * clamp(channelr, 0.0, 0.999)) << ' ' //static_cast<type>(value)显式类型转换
+					<< static_cast<int>(256 * clamp(channelg, 0.0, 0.999)) << ' '
+					<< static_cast<int>(256 * clamp(channelb, 0.0, 0.999)) << "\n";
 
 			}
 			file.close();
-			std::cout << "complished" << std::endl;
+			std::cout << std::endl <<"complished" << std::endl;
 		}
 	}
 public:

@@ -64,16 +64,16 @@ public:
 		double g = sqrt(scale * e[1]);
 		double b = sqrt(scale * e[2]);
 
-		colorarray[pixelindex] = (256 * clamp(r, 0.0, 0.999));
-		colorarray[pixelindex + 1] = (256 * clamp(g, 0.0, 0.999));
-		colorarray[pixelindex + 2] = (256 * clamp(b, 0.0, 0.999));
+		colorarray[pixelindex] = r;
+		colorarray[pixelindex + 1] = g;// (256 * clamp(g, 0.0, 0.999));
+		colorarray[pixelindex + 2] = b;// (256 * clamp(b, 0.0, 0.999));
 
 		//out << static_cast<int>(pixelindex) << std::endl;
 
 		//将vector3(0-1)转化输出成颜色(0-256)
-		//out << static_cast<int>(256 * clamp(r, 0.0, 0.999)) << ' '
-		//	<< static_cast<int>(256 * clamp(g, 0.0, 0.999)) << ' '
-		//	<< static_cast<int>(256 * clamp(b, 0.0, 0.999)) << '\n';
+		//out << static_cast<int>(256 * clamp(colorarray[pixelindex], 0.0, 0.999)) << ' '
+		//	<< static_cast<int>(256 * clamp(colorarray[pixelindex + 1], 0.0, 0.999)) << ' '
+		//	<< static_cast<int>(256 * clamp(colorarray[pixelindex + 2], 0.0, 0.999)) << '\n';
 	}
 
 	inline static vec3 random()

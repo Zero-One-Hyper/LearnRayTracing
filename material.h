@@ -59,7 +59,7 @@ public:
 	dielectric(double ri) : ref_idx(ri)	{}
 
 	virtual bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray& scattered)
-	const override {
+		const override {
 		attenuation = vec3(1.0, 1.0, 1.0);
 		double etai_over_etat = (rec.front_face) ? (1.0 / ref_idx) : (ref_idx);
 

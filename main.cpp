@@ -17,33 +17,31 @@ int main()
     const int image_height = 100;
     const int sample_per_pixel = 100;//抗锯齿处理，每个像素向周边采样多少次
     const int max_depth = 50;//最大反射次数
-    const double r = cos(pi / 4);
-    const vec3 lookfrom = vec3(-2, 2, 1);
-    const vec3 lookat = vec3(0, 0, -1);
+    const vec3 lookfrom = vec3(0, 0, -1);
+    const vec3 lookat = vec3(0, 0, 10);
 	const vec3 vup = vec3(0, 1, 0);
-    const double fov = 90;
+    const double fov = 60;
     const double aspect_ratio = double(image_width) / image_height;
     const double dist_to_focus = (lookfrom - lookat).length();
     const double aperture = 2.0;
 
     
 
-    //vec3 lower_left_corner{ 1.0, -1.0, -1.0 };
-    //vec3 horiizonal{ 4.0, 0.0, 0.0 };
-    //vec3 vertical{ 0.0, 2.0, 0.0 };
-    //vec3 origin{0.0, 0.0, 0.0};
+    vec3 lower_left_corner{ -2, -1.0, -1.0 };
+    vec3 horiizonal{ 4.0, 0.0, 0.0 };
+    vec3 vertical{ 0.0, 2.0, 0.0 };
+    vec3 origin{0.0, 0.0, 1};
 
-    hittable_list world = random_scene();
+    hittable_list world;// = random_scene();
     world.add(make_shared<sphere>(vec3(0, 0, -1), 0.5, make_shared<lambertian>(vec3(0.7, 0.3, 0.3))));//sphere要 public继承hittable
     world.add(make_shared<sphere>(vec3(0, -100.5, -1), 100, make_shared<lambertian>(vec3(0.8, 0.8, 0.0))));
 
 	world.add(make_shared<sphere>(vec3(1, 0, -1), 0.5, make_shared<metal>(vec3(0.8, 0.6, 0.2), 0.9)));
     world.add(make_shared<sphere>(vec3(-1, 0, -1), 0.5, make_shared<dielectric>(1.5)));
-    world.add(make_shared<sphere>(vec3(-1, 0, -1), -0.35, make_shared<dielectric>(1.5)));//半径取反 得到法线向内的球体
+    world.add(make_shared<sphere>(vec3(-1, 0, -1), -0.35, make_shared<dielectric>(0.7)));//半径取反 得到法线向内的球体
 
-    camera cam(lookfrom, lookat, vup, fov, aspect_ratio,dist_to_focus, aperture);
+    camera cam(lookfrom, lookat, vup, fov, aspect_ratio, dist_to_focus, aperture);
     double colorarray[image_height * image_width * 3];
-	//std::cout << image_height * image_width * 3 << std::endl;
     for (int j = image_height - 1; j >= 0; --j)
     {
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
@@ -56,7 +54,8 @@ int main()
             {
                 double u = (i + random_double()) / image_width;
                 double v = (j + random_double()) / image_height;
-                ray r = cam.get_ray(u, v);
+                //ray r = cam.get_ray(u, v);
+                ray r(origin, lower_left_corner + u * horiizonal + v * vertical);
                 color += ray_color(r, world, max_depth);
             }
             int pixelindex = (image_height - j - 1) * image_width + i;//当前像素
@@ -68,7 +67,6 @@ int main()
 	ppmbuilder ppmbuilder("image.ppm");
 	ppmbuilder.ppmbuild(colorarray, image_width, image_height);
     std::cerr << "\nDone.\n";
-    //std::cout << sizeof(colorarray) << std::endl;
     //return 0;
 }
 
@@ -123,6 +121,7 @@ vec3 ray_color(const ray& r, const hittable& world, int depth)
         //vec3 target = rec.p + random_in_hemisphere(rec.normal);//从射中点随机一个方向 早期的光线追踪论文中大部分使用的都是这个方法:
         //return 0.5 * ray_color(ray(rec.p, target - rec.p), world, depth - 1);
         //光照计算改为用射到位置的材质计算
+        //std::cout << "击中" << std::endl;
 		if (rec.mat_ptr->scatter(r, rec, attenuaion, scattered))
 		{
 			return attenuaion * ray_color(scattered, world, depth - 1);
@@ -130,8 +129,9 @@ vec3 ray_color(const ray& r, const hittable& world, int depth)
         return vec3(0, 0, 0);
     }
     //天空盒填充 用y轴填充lerp蓝色
-    vec3 unit_direction = unit_vector(r.dir);
+    vec3 unit_direction = unit_vector(r.direction());
     double t = 0.5 * (unit_direction.y() + 1.0);
+    //return vec3(0.5, 0.7, 1);
     return (1.0 - t) * vec3(1.0, 1.0, 1.0) + t * vec3(0.5, 0.7, 1.0);
 }
 
@@ -140,8 +140,8 @@ hittable_list random_scene()
     hittable_list world;
 
     //world.add(make_shared<sphere>(vec3(0, -1000, 0), 1000, make_shared<lambertian>(vec3(0.5, 0.5, 0.5))));
-    return world;
-    /*
+    //return world;
+    
     int i = 1;
     for (int a = -11; a < 11; a++)
     {
@@ -178,5 +178,5 @@ hittable_list random_scene()
 
     world.add(make_shared<sphere>(vec3(4, 1, 0), 1.0, make_shared<metal>(vec3(0.7, 0.6, 0.5), 0.0)));
     return world;
-    */
+    
 }
