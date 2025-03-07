@@ -1,22 +1,22 @@
-#include "rtweekend.h"
+ï»¿#include "rtweekend.h"
 #include "hittable_list.h"
 #include "sphere.h"
 #include "camera.h"
 #include "ppmbuilder.h"
 #include <iostream>
 
-//±£Ö¤ËùÓĞÍ·ÎÄ¼şÖ»includeÒ»´Î
+//ä¿è¯æ‰€æœ‰å¤´æ–‡ä»¶åªincludeä¸€æ¬¡
 
 double hit_sphere(const vec3& center, double radius, const ray& r);
 vec3 ray_color(const ray& r, const hittable& world, int depth);
-hittable_list random_scene();//Ëæ»ú³¡¾°
+hittable_list random_scene();//éšæœºåœºæ™¯
 
 int main()
 {
     const int image_width = 800;
     const int image_height = 400;
-    const int sample_per_pixel = 100;//¿¹¾â³İ´¦Àí£¬Ã¿¸öÏñËØÏòÖÜ±ß²ÉÑù¶àÉÙ´Î
-    const int max_depth = 50;//×î´ó·´Éä´ÎÊı
+    const int sample_per_pixel = 100;//æŠ—é”¯é½¿å¤„ç†ï¼Œæ¯ä¸ªåƒç´ å‘å‘¨è¾¹é‡‡æ ·å¤šå°‘æ¬¡
+    const int max_depth = 50;//æœ€å¤§åå°„æ¬¡æ•°
     const vec3 lookfrom = vec3(0, 3, 4.5);
     const vec3 lookat = vec3(0, 0, 0);
 	const vec3 vup = vec3(0, 1, 0);
@@ -35,10 +35,10 @@ int main()
     hittable_list world = random_scene();
     
     //world.add(make_shared<sphere>(vec3(0, -100.5, -1), 100, make_shared<lambertian>(vec3(0.8, 0.8, 0.0))));
-    //world.add(make_shared<sphere>(vec3(0, 0, -1), 0.5, make_shared<lambertian>(vec3(0.7, 0.3, 0.3))));//sphereÒª public¼Ì³Ğhittable
+    //world.add(make_shared<sphere>(vec3(0, 0, -1), 0.5, make_shared<lambertian>(vec3(0.7, 0.3, 0.3))));//sphereè¦ publicç»§æ‰¿hittable
 	//world.add(make_shared<sphere>(vec3(1, 0, -1), 0.5, make_shared<metal>(vec3(0.8, 0.6, 0.2), 0.9)));
     //world.add(make_shared<sphere>(vec3(-1, 0, -1), 0.5, make_shared<dielectric>(1.5)));
-    //world.add(make_shared<sphere>(vec3(-1, 0, -1), -0.35, make_shared<dielectric>(20)));//°ë¾¶È¡·´ µÃµ½·¨ÏßÏòÄÚµÄÇòÌå
+    //world.add(make_shared<sphere>(vec3(-1, 0, -1), -0.35, make_shared<dielectric>(20)));//åŠå¾„å–å å¾—åˆ°æ³•çº¿å‘å†…çš„çƒä½“
     
 
     camera cam(lookfrom, lookat, vup, fov, aspect_ratio, aperture, dist_to_focus);
@@ -48,10 +48,10 @@ int main()
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
         for (int i = 0; i < image_width; ++i)
         {
-            //¶Ôµ±Ç°ÏñËØ½øĞĞ×ÅÉ«
+            //å¯¹å½“å‰åƒç´ è¿›è¡Œç€è‰²
             vec3 color;
             
-            //¿¹¾â³İ¶à´Î²ÉÑù
+            //æŠ—é”¯é½¿å¤šæ¬¡é‡‡æ ·
             for (int s = 0; s < sample_per_pixel; ++s)
             {
                 double u = (i + random_double()) / image_width;
@@ -61,12 +61,12 @@ int main()
                 color += ray_color(r, world, max_depth);
             }
             
-            //²»¿¹¾â³İ
+            //ä¸æŠ—é”¯é½¿
             //ray r = cam.get_ray((double)i / image_width , (double)j / image_height);
             //ray r(origin, lower_left_corner + (double)i / image_width * horiizonal + (double)j / image_height * vertical);
             //color += ray_color(r, world, max_depth);
 
-            int pixelindex = (image_height - j - 1) * image_width + i;//µ±Ç°ÏñËØ
+            int pixelindex = (image_height - j - 1) * image_width + i;//å½“å‰åƒç´ 
             pixelindex *= 3;
 			//std::cout << pixelindex << std::endl;
             color.write_color(std::cout, sample_per_pixel, pixelindex, colorbuffer);
@@ -82,10 +82,10 @@ int main()
 
 double hit_sphere(const vec3& center, double radius, const ray& r)
 {
-    //¼ÆËãÉäÏßÊÇ·ñ»÷ÖĞÇòÌå
+    //è®¡ç®—å°„çº¿æ˜¯å¦å‡»ä¸­çƒä½“
     vec3 oc = r.origin() - center;
     double a = dot(r.direction(), r.direction());
-    //double b = 2.0 * dot(oc, r.direction());//¼ò»¯Îª
+    //double b = 2.0 * dot(oc, r.direction());//ç®€åŒ–ä¸º
     //double c = dot(oc, oc) - radius * radius;
     //double discriminant = b * b - 4 * a * c;
     double half_b = dot(oc, r.direction());
@@ -104,7 +104,7 @@ double hit_sphere(const vec3& center, double radius, const ray& r)
 
 vec3 ray_color(const ray& r, const hittable& world, int depth)
 {
-    //×èÖ¹ÎŞÏŞ·´Éä
+    //é˜»æ­¢æ— é™åå°„
     if (depth <= 0)
     {
         return vec3(0, 0, 0);
@@ -113,32 +113,32 @@ vec3 ray_color(const ray& r, const hittable& world, int depth)
     double t = hit_sphere(vec3(0, 0, -1), 0.5, r);
     if (t > 0, 0)
     {
-        //ÉäÏß»÷ÖĞÇòÌå
+        //å°„çº¿å‡»ä¸­çƒä½“
         vec3 N = unit_vector(r.at(t) - vec3(0, 0, -1));
         return 0.5 * vec3(N.x() + 1, N.y + 1, N.z() + 1);
     }
     */
     hit_record rec;
-	if (world.hit(r, 0.0001, infinity, rec))//ÊÀ½çÏà½» 0.0001·ÀÖ¹×ÔÏà½»
+	if (world.hit(r, 0.0001, infinity, rec))//ä¸–ç•Œç›¸äº¤ 0.0001é˜²æ­¢è‡ªç›¸äº¤
     {
         ray scattered;
         vec3 attenuaion;
-        //return 0.5 * (rec.normal + vec3(1, 1, 1));//ÔİÊ±ÓÃ·¨Ïß×÷ÎªÑÕÉ«Êä³ö
+        //return 0.5 * (rec.normal + vec3(1, 1, 1));//æš‚æ—¶ç”¨æ³•çº¿ä½œä¸ºé¢œè‰²è¾“å‡º
         
-        //ÔÚ»÷ÖĞµãÍâ£¨»÷ÖĞµãp+±íÃæ·¨Ïßnormal£© Ñ°ÕÒÒ»¸öËæ»úµã ÒÔÕâ¸öËæ»úµã¼ÆËã·´ÉäÉäÏßµÄ·½Ïò
+        //åœ¨å‡»ä¸­ç‚¹å¤–ï¼ˆå‡»ä¸­ç‚¹p+è¡¨é¢æ³•çº¿normalï¼‰ å¯»æ‰¾ä¸€ä¸ªéšæœºç‚¹ ä»¥è¿™ä¸ªéšæœºç‚¹è®¡ç®—åå°„å°„çº¿çš„æ–¹å‘
         //vec3 target = rec.p + rec.normal + random_in_unit_sphere();
-        //vec3 target = rec.p + rec.normal + random_unit_vector();//µ¥Î»Ô²ÄÚµã normalize
-        //vec3 target = rec.p + random_in_hemisphere(rec.normal);//´ÓÉäÖĞµãËæ»úÒ»¸ö·½Ïò ÔçÆÚµÄ¹âÏß×·×ÙÂÛÎÄÖĞ´ó²¿·ÖÊ¹ÓÃµÄ¶¼ÊÇÕâ¸ö·½·¨:
+        //vec3 target = rec.p + rec.normal + random_unit_vector();//å•ä½åœ†å†…ç‚¹ normalize
+        //vec3 target = rec.p + random_in_hemisphere(rec.normal);//ä»å°„ä¸­ç‚¹éšæœºä¸€ä¸ªæ–¹å‘ æ—©æœŸçš„å…‰çº¿è¿½è¸ªè®ºæ–‡ä¸­å¤§éƒ¨åˆ†ä½¿ç”¨çš„éƒ½æ˜¯è¿™ä¸ªæ–¹æ³•:
         //return 0.5 * ray_color(ray(rec.p, target - rec.p), world, depth - 1);
-        //¹âÕÕ¼ÆËã¸ÄÎªÓÃÉäµ½Î»ÖÃµÄ²ÄÖÊ¼ÆËã
-        //std::cout << "»÷ÖĞ" << std::endl;
+        //å…‰ç…§è®¡ç®—æ”¹ä¸ºç”¨å°„åˆ°ä½ç½®çš„æè´¨è®¡ç®—
+        //std::cout << "å‡»ä¸­" << std::endl;
 		if (rec.mat_ptr->scatter(r, rec, attenuaion, scattered))
 		{
 			return attenuaion * ray_color(scattered, world, depth - 1);           
 		}
         return vec3(0, 0, 0);
     }
-    //Ìì¿ÕºĞÌî³ä ÓÃyÖáÌî³älerpÀ¶É«
+    //å¤©ç©ºç›’å¡«å…… ç”¨yè½´å¡«å……lerpè“è‰²
     vec3 unit_direction = unit_vector(r.direction());
     double t = 0.5 * (unit_direction.y() + 1.0);
     //return vec3(0.5, 0.7, 1);
@@ -163,20 +163,20 @@ hittable_list random_scene()
             {
                 if (choose_mat < 0.8)
                 {
-                    //ÆÕÍ¨Âş·´Éä
+                    //æ™®é€šæ¼«åå°„
                     vec3 albedo = vec3::random() * vec3::random();
                     world.add(make_shared<sphere>(center, 0.2, make_shared<lambertian>(albedo)));
                 }
                 else if (choose_mat < 0.95)
                 {
-                    //½ğÊô
+                    //é‡‘å±
                     vec3 albedo = vec3::random(0.5, 1);
                     double fuzz = random_double(0, 0.5);
                     world.add(make_shared<sphere>(center, 0.2, make_shared<metal>(albedo, fuzz)));
                 }
                 else
                 {
-                    //²£Á§
+                    //ç»ç’ƒ
                     world.add(make_shared<sphere>(center, 0.2, make_shared<dielectric>(1.5)));
                 }
             }

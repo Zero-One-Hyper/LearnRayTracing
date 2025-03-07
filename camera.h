@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 
 //#include "hittable.h"
 #include "material.h"
 
 
 /// <summary>
-/// ¼òÒ×ÉãÏñ»úÀà
+/// ç®€æ˜“æ‘„åƒæœºç±»
 /// </summary>
 class camera
 {
@@ -13,13 +13,13 @@ public:
 	/// <summary>
 	/// 
 	/// </summary>
-	/// <param name="lookfrom">Ïà»úÎ»ÖÃ</param>
-	/// <param name="lookat">Ïà»ú¿´ÏòµÄÄ¿±êµã</param>
-	/// <param name="vup">·½ÏòÉÏÏòÁ¿</param>
-	/// <param name="vfov">ÊÓ½Ç</param>
-	/// <param name="aspect">×İºá±È</param>
-	/// <param name="aperture">¿×¾¶</param>
-	/// <param name="focus_dist">½¹µã¾àÀë</param>
+	/// <param name="lookfrom">ç›¸æœºä½ç½®</param>
+	/// <param name="lookat">ç›¸æœºçœ‹å‘çš„ç›®æ ‡ç‚¹</param>
+	/// <param name="vup">æ–¹å‘ä¸Šå‘é‡</param>
+	/// <param name="vfov">è§†è§’</param>
+	/// <param name="aspect">çºµæ¨ªæ¯”</param>
+	/// <param name="aperture">å­”å¾„</param>
+	/// <param name="focus_dist">ç„¦ç‚¹è·ç¦»</param>
 	camera(vec3 lookfrom, vec3 lookat, vec3 vup,
 		double vfov, double aspect, double aperture, double focus_dist)
 	{
@@ -51,7 +51,7 @@ public:
 	}
 
 public:
-	vec3 origin;//Ïà»úÔ­µã
+	vec3 origin;//ç›¸æœºåŸç‚¹
 	vec3 lower_left_corner;
 	vec3 horiizonal;
 	vec3 vertical;

@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 //#include "rtweekend.h"
 //struct hit_record;
 //#include "hittable.h"
 
 /// <summary>
-/// ·ÆÄù¶û
+/// è²æ¶…å°”
 /// </summary>
 /// <param name="cosine"></param>
 /// <param name="ref_idx"></param>
@@ -44,17 +44,17 @@ public:
 		vec3 reflected = reflect(unit_vector(r_in.direction()), rec.normal);
 		scattered = ray(rec.p, reflected + fuzz * random_in_unit_sphere());
 		attenuation = albedo;
-		return (dot(scattered.direction(), rec.normal) > 0);//É¢Éä¹âÏßÓë·¨Ïß ÈôÉ¢Éä¹âÏßÖ¸ÏòÄÚ²¿£¬ÔòÈÏÎª¹âÏß±»ÎüÊÕ
+		return (dot(scattered.direction(), rec.normal) > 0);//æ•£å°„å…‰çº¿ä¸æ³•çº¿ è‹¥æ•£å°„å…‰çº¿æŒ‡å‘å†…éƒ¨ï¼Œåˆ™è®¤ä¸ºå…‰çº¿è¢«å¸æ”¶
 	}
 
 public:
 	vec3 albedo;
-	double fuzz;//Ä£ºı¶È Ïàµ±ÓÚ ´Ö²Ú¶È
+	double fuzz;//æ¨¡ç³Šåº¦ ç›¸å½“äº ç²—ç³™åº¦
 };
 
 class dielectric : public material
 {
-	//Ö»»á·¢ÉúÕÛÉäµÄ¾øÔµÌå²ÄÖÊ
+	//åªä¼šå‘ç”ŸæŠ˜å°„çš„ç»ç¼˜ä½“æè´¨
 public:
 	dielectric(double ri) : ref_idx(ri)	{}
 
@@ -68,16 +68,16 @@ public:
 		double sin_theta = sqrt(1.0 - cos_theta * cos_theta);
 		if (etai_over_etat * sin_theta > 1.0)
 		{
-			//Ò»¶¨·¢Éú·´Éä
+			//ä¸€å®šå‘ç”Ÿåå°„
 			vec3 reflected = reflect(unit_direction, rec.normal);
 			scattered = ray(rec.p, reflected);
 			return true;
 		}
-		//ÕÛÉä
+		//æŠ˜å°„
 		double reflect_prob = schlick(cos_theta, etai_over_etat);
 		if (random_double() < reflect_prob)
 		{
-			//·ÆÄù¶û
+			//è²æ¶…å°”
 			vec3 reflected = reflect(unit_direction, rec.normal);
 			scattered = ray(rec.p, reflected);
 			return true;
@@ -87,12 +87,12 @@ public:
 		return true;
 	}
 
-	double ref_idx;//ÕÛÉäÂÊ
+	double ref_idx;//æŠ˜å°„ç‡
 };
 
 double schlick(double cosine, double ref_idx)
 {
-	//·ÆÄù¶û
+	//è²æ¶…å°”
 	double r0 = (1 - ref_idx) / (1 + ref_idx);
 	r0 = r0 * r0;
 	return r0 + (1 - r0) * pow((1 - cosine), 5);

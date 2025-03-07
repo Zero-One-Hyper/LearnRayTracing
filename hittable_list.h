@@ -1,15 +1,15 @@
-#pragma once
+ï»¿#pragma once
 
 #include "hittable.h"
 //#include <memory>
 #include <vector>
 
-//using std::shared_ptr;	//ÊÇÖ¸ÏòÒ»Ð©ÒÑ·ÖÅäÄÚ´æµÄÀàÐÍµÄÖ¸Õë£¬Ã¿µ±Äã½«ËüµÄÖµ¸³Öµ¸øÁíÒ»¸öÖÇÄÜÖ¸ÕëÊ±, ÎïÌåµÄÒýÓÃ¼ÆÊýÆ÷¾Í»á+1¡£
-						//µ±ÖÇÄÜÖ¸ÕëÀë¿ªËüËùÔÚµÄÉú´æ·¶Î§(ÀýÈç´úÂë¿é»òÕßº¯ÊýÍâ), ÎïÌåµÄÒýÓÃ¼ÆÊýÆ÷¾Í»á-1¡£Ò»µ©ÒýÓÃ¼ÆÊýÆ÷Îª0, ¼´Ã»ÓÐÈÎºÎÖÇÄÜÖ¸ÕëÖ¸Ïò¸ÃÎïÌåÊ±, ¸ÃÎïÌå¾Í»á±»Ïú»Ù
-//using std::make_shared;//ÎªÖ¸¶¨µÄÀàÐÍ·ÖÅäÒ»¶ÎÄÚ´æ, Ê¹ÓÃÄãÖ¸¶¨µÄ¹¹Ôìº¯ÊýÓë²ÎÊýÀ´´´½¨Õâ¸öÀà, ²¢·µ»ØÒ»¸öÖÇÄÜÖ¸Õëshared_ptr<thing>
+//using std::shared_ptr;	//æ˜¯æŒ‡å‘ä¸€äº›å·²åˆ†é…å†…å­˜çš„ç±»åž‹çš„æŒ‡é’ˆï¼Œæ¯å½“ä½ å°†å®ƒçš„å€¼èµ‹å€¼ç»™å¦ä¸€ä¸ªæ™ºèƒ½æŒ‡é’ˆæ—¶, ç‰©ä½“çš„å¼•ç”¨è®¡æ•°å™¨å°±ä¼š+1ã€‚
+						//å½“æ™ºèƒ½æŒ‡é’ˆç¦»å¼€å®ƒæ‰€åœ¨çš„ç”Ÿå­˜èŒƒå›´(ä¾‹å¦‚ä»£ç å—æˆ–è€…å‡½æ•°å¤–), ç‰©ä½“çš„å¼•ç”¨è®¡æ•°å™¨å°±ä¼š-1ã€‚ä¸€æ—¦å¼•ç”¨è®¡æ•°å™¨ä¸º0, å³æ²¡æœ‰ä»»ä½•æ™ºèƒ½æŒ‡é’ˆæŒ‡å‘è¯¥ç‰©ä½“æ—¶, è¯¥ç‰©ä½“å°±ä¼šè¢«é”€æ¯
+//using std::make_shared;//ä¸ºæŒ‡å®šçš„ç±»åž‹åˆ†é…ä¸€æ®µå†…å­˜, ä½¿ç”¨ä½ æŒ‡å®šçš„æž„é€ å‡½æ•°ä¸Žå‚æ•°æ¥åˆ›å»ºè¿™ä¸ªç±», å¹¶è¿”å›žä¸€ä¸ªæ™ºèƒ½æŒ‡é’ˆshared_ptr<thing>
 
 /// <summary>
-/// ´æ·ÅÎïÌåµÄÁÐ±í
+/// å­˜æ”¾ç‰©ä½“çš„åˆ—è¡¨
 /// </summary>
 class hittable_list : public hittable
 {

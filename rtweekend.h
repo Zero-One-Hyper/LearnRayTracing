@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <cmath>
 #include <cstdlib>
 #include <limits>
@@ -6,11 +6,11 @@
 #include <cstdlib>
 
 
-//³£Êı¼°³£ÓÃ¶¨Òå
+//å¸¸æ•°åŠå¸¸ç”¨å®šä¹‰
 
-using std::shared_ptr;//ÊÇÖ¸ÏòÒ»Ğ©ÒÑ·ÖÅäÄÚ´æµÄÀàĞÍµÄÖ¸Õë£¬Ã¿µ±Äã½«ËüµÄÖµ¸³Öµ¸øÁíÒ»¸öÖÇÄÜÖ¸ÕëÊ±, ÎïÌåµÄÒıÓÃ¼ÆÊıÆ÷¾Í»á+1¡£
-						//µ±ÖÇÄÜÖ¸ÕëÀë¿ªËüËùÔÚµÄÉú´æ·¶Î§(ÀıÈç´úÂë¿é»òÕßº¯ÊıÍâ), ÎïÌåµÄÒıÓÃ¼ÆÊıÆ÷¾Í»á-1¡£Ò»µ©ÒıÓÃ¼ÆÊıÆ÷Îª0, ¼´Ã»ÓĞÈÎºÎÖÇÄÜÖ¸ÕëÖ¸Ïò¸ÃÎïÌåÊ±, ¸ÃÎïÌå¾Í»á±»Ïú»Ù
-using std::make_shared;//ÎªÖ¸¶¨µÄÀàĞÍ·ÖÅäÒ»¶ÎÄÚ´æ, Ê¹ÓÃÄãÖ¸¶¨µÄ¹¹Ôìº¯ÊıÓë²ÎÊıÀ´´´½¨Õâ¸öÀà, ²¢·µ»ØÒ»¸öÖÇÄÜÖ¸Õëshared_ptr<thing>
+using std::shared_ptr;//æ˜¯æŒ‡å‘ä¸€äº›å·²åˆ†é…å†…å­˜çš„ç±»å‹çš„æŒ‡é’ˆï¼Œæ¯å½“ä½ å°†å®ƒçš„å€¼èµ‹å€¼ç»™å¦ä¸€ä¸ªæ™ºèƒ½æŒ‡é’ˆæ—¶, ç‰©ä½“çš„å¼•ç”¨è®¡æ•°å™¨å°±ä¼š+1ã€‚
+						//å½“æ™ºèƒ½æŒ‡é’ˆç¦»å¼€å®ƒæ‰€åœ¨çš„ç”Ÿå­˜èŒƒå›´(ä¾‹å¦‚ä»£ç å—æˆ–è€…å‡½æ•°å¤–), ç‰©ä½“çš„å¼•ç”¨è®¡æ•°å™¨å°±ä¼š-1ã€‚ä¸€æ—¦å¼•ç”¨è®¡æ•°å™¨ä¸º0, å³æ²¡æœ‰ä»»ä½•æ™ºèƒ½æŒ‡é’ˆæŒ‡å‘è¯¥ç‰©ä½“æ—¶, è¯¥ç‰©ä½“å°±ä¼šè¢«é”€æ¯
+using std::make_shared;//ä¸ºæŒ‡å®šçš„ç±»å‹åˆ†é…ä¸€æ®µå†…å­˜, ä½¿ç”¨ä½ æŒ‡å®šçš„æ„é€ å‡½æ•°ä¸å‚æ•°æ¥åˆ›å»ºè¿™ä¸ªç±», å¹¶è¿”å›ä¸€ä¸ªæ™ºèƒ½æŒ‡é’ˆshared_ptr<thing>
 
 const double infinity = std::numeric_limits<double>::infinity();
 const double pi = 3.14159265358;
@@ -20,15 +20,15 @@ const double degress_to_radians(double degress)
 	return degress * pi / 180;
 }
 
-//×î´ó×îĞ¡
+//æœ€å¤§æœ€å°
 inline double ffmin(double a, double b) { return a <= b ? a : b; }
 inline double ffmax(double a, double b) { return a <= b ? b : a; }
 
-//Ëæ»úÊı
-inline double random_double() { return rand() / (RAND_MAX + 1.0); }//È¡Öµ·¶Î§[0, 1)
+//éšæœºæ•°
+inline double random_double() { return rand() / (RAND_MAX + 1.0); }//å–å€¼èŒƒå›´[0, 1)
 inline double random_double(double min, double max) { return min + (max - min) * random_double(); }
 
-//Ç¯ÖÆ
+//é’³åˆ¶
 inline double clamp(double x, double min, double max)
 {
 	if (x < min)

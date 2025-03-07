@@ -1,18 +1,18 @@
-#pragma once
+ï»¿#pragma once
 //#include "rtweekend.h"
 //#include "ray.h"
 
 
-//hittable±ÈmaterialÏÈ¶¨Òå£¬ÕâÀïĞèÒªÏÈÉùÃ÷material ºóÃæCamera»áinclude material
+//hittableæ¯”materialå…ˆå®šä¹‰ï¼Œè¿™é‡Œéœ€è¦å…ˆå£°æ˜material åé¢Cameraä¼šinclude material
 class material;
 
 /// <summary>
-/// ÉäÏßÅö×²¼ÇÂ¼
+/// å°„çº¿ç¢°æ’è®°å½•
 /// </summary>
 struct hit_record
 {
-	vec3 p;//Åö×²µã
-	vec3 normal; //Åö×²µãµÄ·¨Ïß
+	vec3 p;//ç¢°æ’ç‚¹
+	vec3 normal; //ç¢°æ’ç‚¹çš„æ³•çº¿
 	shared_ptr<material> mat_ptr;
 	double t;
 	bool front_face;
@@ -25,7 +25,7 @@ struct hit_record
 };
 
 /// <summary>
-/// ÈÎºÎÓëÉäÏßÏà½»µÄ¶«Î÷¶¼¼Ì³Ğ´Ë³éÏóÀà
+/// ä»»ä½•ä¸å°„çº¿ç›¸äº¤çš„ä¸œè¥¿éƒ½ç»§æ‰¿æ­¤æŠ½è±¡ç±»
 /// </summary>
 class hittable
 {

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <fstream>
 #include <iostream>
@@ -23,7 +23,7 @@ public:
 				double channelg = color[pixelindex + 1];
 				double channelb = color[pixelindex + 2];
 				//std::cout << channelr << ' ' << channelg << ' ' << channelb << ' ' <<  pixelindex << ' ' << i << std::endl;
-				file << static_cast<int>(256 * clamp(channelr, 0.0, 0.999)) << ' ' //static_cast<type>(value)ÏÔÊ½ÀàĞÍ×ª»»
+				file << static_cast<int>(256 * clamp(channelr, 0.0, 0.999)) << ' ' //static_cast<type>(value)æ˜¾å¼ç±»å‹è½¬æ¢
 					<< static_cast<int>(256 * clamp(channelg, 0.0, 0.999)) << ' '
 					<< static_cast<int>(256 * clamp(channelb, 0.0, 0.999)) << "\n";
 

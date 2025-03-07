@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 //#include "rtweekend.h"
 #include <iostream>
 
@@ -55,11 +55,11 @@ public:
 		return e[0] * e[0] + e[1] * e[1] + e[2] * e[2];
 	}
 
-	//Ğ´ÑÕÉ«£¬²¢¿¹¾â³İ´¦Àí£¨ÏñËØÖÜ±ß¶à´Î²ÉÑù·½·¨£©
+	//å†™é¢œè‰²ï¼Œå¹¶æŠ—é”¯é½¿å¤„ç†ï¼ˆåƒç´ å‘¨è¾¹å¤šæ¬¡é‡‡æ ·æ–¹æ³•ï¼‰
 	void write_color(std::ostream& out, int sample_per_pixel, int pixelindex, double* colorarray)
 	{ 
-		double scale = 1.0 / sample_per_pixel;//²ÉÑùÁË¶àÉÙ¸öÏñËØ£¬Õâ¸öÏñËØµÄÑÕÉ«Õ¼×ÜÏñËØµÄ 1.0 / sample_per_pixel
-		//gamma´¦Àí ¿ª·½
+		double scale = 1.0 / sample_per_pixel;//é‡‡æ ·äº†å¤šå°‘ä¸ªåƒç´ ï¼Œè¿™ä¸ªåƒç´ çš„é¢œè‰²å æ€»åƒç´ çš„ 1.0 / sample_per_pixel
+		//gammaå¤„ç† å¼€æ–¹
 		double r = sqrt(scale * e[0]);
 		double g = sqrt(scale * e[1]);
 		double b = sqrt(scale * e[2]);
@@ -70,7 +70,7 @@ public:
 
 		//out << static_cast<int>(pixelindex) << std::endl;
 
-		//½«vector3(0-1)×ª»¯Êä³ö³ÉÑÕÉ«(0-256)
+		//å°†vector3(0-1)è½¬åŒ–è¾“å‡ºæˆé¢œè‰²(0-256)
 		//out << static_cast<int>(256 * clamp(colorarray[pixelindex], 0.0, 0.999)) << ' '
 		//	<< static_cast<int>(256 * clamp(colorarray[pixelindex + 1], 0.0, 0.999)) << ' '
 		//	<< static_cast<int>(256 * clamp(colorarray[pixelindex + 2], 0.0, 0.999)) << '\n';
@@ -131,17 +131,17 @@ inline vec3 cross(vec3& u, vec3& v)
 }
 inline vec3 unit_vector(vec3 v)
 {
-	//¹éÒ»»¯
+	//å½’ä¸€åŒ–
 	return v / v.length();
 }
 inline vec3 reflect(const vec3& v, const vec3& n)
 {
-	//·´Éä
+	//åå°„
 	return v - 2 * dot(v, n) * n;
 }
 inline vec3 refract(const vec3& uv, const vec3& n, double etai_over_etat)
 {
-	//ÕÛÉä
+	//æŠ˜å°„
 	double cos_theta = dot(-uv, n);
 	vec3 r_out_parallel = etai_over_etat * (uv + cos_theta * n);
 	vec3 r_out_perp = -sqrt(1.0 - r_out_parallel.length_squared()) * n;
@@ -149,7 +149,7 @@ inline vec3 refract(const vec3& uv, const vec3& n, double etai_over_etat)
 }
 
 /// <summary>
-/// ÔÚµ¥Î»Ô²ÄÚÉú³ÉËæ»úµã
+/// åœ¨å•ä½åœ†å†…ç”Ÿæˆéšæœºç‚¹
 /// </summary>
 /// <returns></returns>
 inline vec3 random_in_unit_sphere()
@@ -157,7 +157,7 @@ inline vec3 random_in_unit_sphere()
 	while (true)
 	{
 		vec3 p = vec3::random(1, -1);
-		//Ëæ»úÒ»¸öµã ÅĞ¶ÏÕâ¸öµãµ½£¨0£¬0£¬0£©µÄ¾àÀëÊÇ·ñĞ¡ÓÚ1
+		//éšæœºä¸€ä¸ªç‚¹ åˆ¤æ–­è¿™ä¸ªç‚¹åˆ°ï¼ˆ0ï¼Œ0ï¼Œ0ï¼‰çš„è·ç¦»æ˜¯å¦å°äº1
 		if (p.length_squared() >= 1)
 		{
 			continue;
@@ -167,7 +167,7 @@ inline vec3 random_in_unit_sphere()
 }
 
 /// <summary>
-/// Ê¹ÓÃ¼«×ø±ê·½Ê½ ÔÚµ¥Î»Ô²ÄÚÈ¡Ëæ»úµã£¬È»ºóµ¥Î»»¯
+/// ä½¿ç”¨æåæ ‡æ–¹å¼ åœ¨å•ä½åœ†å†…å–éšæœºç‚¹ï¼Œç„¶åå•ä½åŒ–
 /// </summary>
 /// <returns></returns>
 inline vec3 random_unit_vector()
@@ -179,7 +179,7 @@ inline vec3 random_unit_vector()
 }
 
 /// <summary>
-/// Ñ¡ÔñÒ»¸öµ¥Î»Ô²ÄÚµÄËæ»úµã£¬È»ºóÅĞ¶ÏÕâ¸öµãÊÇ·ñÔÚ·¨ÏßµÄ°ëÇòÄÚ£¬Èç¹ûÔÚÔò·µ»ØÕâ¸öµã£¬·ñÔò·µ»ØÕâ¸öµãµÄ·´·½Ïò
+/// é€‰æ‹©ä¸€ä¸ªå•ä½åœ†å†…çš„éšæœºç‚¹ï¼Œç„¶ååˆ¤æ–­è¿™ä¸ªç‚¹æ˜¯å¦åœ¨æ³•çº¿çš„åŠçƒå†…ï¼Œå¦‚æœåœ¨åˆ™è¿”å›è¿™ä¸ªç‚¹ï¼Œå¦åˆ™è¿”å›è¿™ä¸ªç‚¹çš„åæ–¹å‘
 /// </summary>
 /// <param name="normal"></param>
 /// <returns></returns>
@@ -196,7 +196,7 @@ inline vec3 random_in_hemisphere(const vec3& normal)
 	}
 }
 /// <summary>
-/// ´ÓÔ²ÅÌËæ»ú·¢³öÉäÏß£¬ÓÃÓÚÉãÏñ»ú½¹¾à
+/// ä»åœ†ç›˜éšæœºå‘å‡ºå°„çº¿ï¼Œç”¨äºæ‘„åƒæœºç„¦è·
 /// </summary>
 /// <returns></returns>
 inline vec3 random_in_unit_disk()
