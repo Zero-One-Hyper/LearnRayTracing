@@ -13,8 +13,8 @@ hittable_list random_scene();//随机场景
 
 int main()
 {
-    const int image_width = 200;
-    const int image_height = 100;
+    const int image_width = 800;
+    const int image_height = 400;
     const int sample_per_pixel = 100;//抗锯齿处理，每个像素向周边采样多少次
     const int max_depth = 50;//最大反射次数
     const vec3 lookfrom = vec3(0, 3, 4.5);
@@ -42,7 +42,7 @@ int main()
     
 
     camera cam(lookfrom, lookat, vup, fov, aspect_ratio, aperture, dist_to_focus);
-    double colorarray[image_height * image_width * 3];
+    double* colorbuffer = new double[image_height * image_width * 3];
     for (int j = image_height - 1; j >= 0; --j)
     {
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
@@ -69,12 +69,13 @@ int main()
             int pixelindex = (image_height - j - 1) * image_width + i;//当前像素
             pixelindex *= 3;
 			//std::cout << pixelindex << std::endl;
-            color.write_color(std::cout, sample_per_pixel, pixelindex, colorarray);
+            color.write_color(std::cout, sample_per_pixel, pixelindex, colorbuffer);
             //color.write_color(std::cout, 1, pixelindex, colorarray);
         }
     }
 	ppmbuilder ppmbuilder("image.ppm");
-	ppmbuilder.ppmbuild(colorarray, image_width, image_height);
+	ppmbuilder.ppmbuild(colorbuffer, image_width, image_height);
+    delete[] colorbuffer;
     std::cerr << "\nDone.\n";
     //return 0;
 }
